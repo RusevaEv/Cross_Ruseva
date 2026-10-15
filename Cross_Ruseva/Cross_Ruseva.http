@@ -1,0 +1,6 @@
+@Cross_Ruseva_HostAddress = http://localhost:5138
+
+GET {{Cross_Ruseva_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
