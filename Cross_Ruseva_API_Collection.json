@@ -1,0 +1,146 @@
+{
+  "info": {
+    "name": "Cross_Ruseva_API",
+    "description": null,
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Token (admin)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "",
+        "url": {
+          "raw": "https://localhost:7255/api/auth/get-token?role=Admin",
+          "protocol": "https",
+          "host": [
+            "localhost:7255"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "get-token"
+          ],
+          "query": [
+            {
+              "key": "role",
+              "value": "Admin"
+            }
+          ],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Create Dataset (admin)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTc5MTkwMzE4N30.GDf5wowjuJoV_B6BHBEssE06H-fSdZ8m9yfYv4Mw0mY",
+              "type": "string"
+            }
+          ]
+        },
+        "description": "",
+        "url": {
+          "raw": "https://localhost:7255/api/equipment/datasets",
+          "protocol": "https",
+          "host": [
+            "localhost:7255"
+          ],
+          "path": [
+            "api",
+            "equipment",
+            "datasets"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Насосы НПВ-100\",\n  \"operatingTimes\": [1250.5, 3420.0, 890.2, -150.0, 4100.8]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Create Dataset (User)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNzkxOTAzMjkwfQ.dDOMJRMFlJqkrxGR0qs4FqTiGOmmcWxCjkODuwce620",
+              "type": "string"
+            }
+          ]
+        },
+        "description": "",
+        "url": {
+          "raw": "https://localhost:7255/api/equipment/datasets",
+          "protocol": "https",
+          "host": [
+            "localhost:7255"
+          ],
+          "path": [
+            "api",
+            "equipment",
+            "datasets"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Насосы НПВ-100\",\n  \"operatingTimes\": [1250.5, 3420.0, 890.2, -150.0, 4100.8]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Get Token (User)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "",
+        "url": {
+          "raw": "https://localhost:7255/api/auth/get-token?role=User",
+          "protocol": "https",
+          "host": [
+            "localhost:7255"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "get-token"
+          ],
+          "query": [
+            {
+              "key": "role",
+              "value": "User"
+            }
+          ],
+          "variable": []
+        }
+      }
+    }
+  ],
+  "variable": []
+}
