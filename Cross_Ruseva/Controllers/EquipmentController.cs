@@ -53,9 +53,7 @@ namespace Cross_Ruseva.Controllers
             return Ok("Удалено");
         }
 
-        // ==========================================
         // 2. LINQ-ЗАПРОСЫ НА ОБЪЕДИНЕНИЕ ДАННЫХ
-        // ==========================================
 
         // ЗАПРОС 1: Сводный отчет (Объединяем Dataset и Metrics через LINQ Select и Where)
         [Authorize]
@@ -92,6 +90,46 @@ namespace Cross_Ruseva.Controllers
                 }).ToList();
 
             return Ok(criticalData);
+        }
+
+        [HttpPost("upload-csv")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult UploadCsv(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Файл не выбран или пуст");
+
+            var times = Services.CsvParser.ParseFailures(file);
+            var dataset = new EquipmentDataset
+            {
+                Name = file.FileName,
+                OperatingTimes = times
+            };
+
+            DataStore.Datasets.Add(dataset);
+            return Ok(dataset);
+        }
+
+        [HttpPost("datasets/{id}/estimate-weibull")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult EstimateWeibull(Guid id)
+        {
+            var dataset = DataStore.Datasets.FirstOrDefault(d => d.Id == id);
+            if (dataset == null || !dataset.OperatingTimes.Any())
+                return NotFound("Датасет не найден или пуст");
+
+            var metrics = Services.FitEngine.EstimateWeibull(dataset);
+
+            // Удаляем старые метрики для этого датасета, если они были, и сохраняем новые
+            DataStore.Metrics.RemoveAll(m => m.DatasetId == id);
+            DataStore.Metrics.Add(metrics);
+
+            return Ok(new
+            {
+                Message = "Расчет выполнен успешно",
+                Phase = metrics.GetLifecyclePhase(),
+                Result = metrics
+            });
         }
     }
 }
