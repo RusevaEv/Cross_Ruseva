@@ -1,31 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Cross_Ruseva.Models
 {
     public class EquipmentDataset
     {
-        // свойства
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public List<double> OperatingTimes { get; set; } = new List<double>();
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public bool IsSynthetic { get; set; } = false;
+        public List<double> OperatingTimes { get; set; } = new();
 
-        // методы
-        public void CleanData()
-        {
-            if (OperatingTimes != null)
-            {
-                OperatingTimes = OperatingTimes.Where(t => t > 0).ToList();
-            }
-        }
-
+        // Бизнес-логика: средняя наработка на отказ (MTTF)
         public double CalculateMeanTimeToFailure()
         {
-            if (OperatingTimes == null || !OperatingTimes.Any())
-                return 0;
-
-            return OperatingTimes.Average();
+            if (OperatingTimes.Count == 0) return 0;
+            return Math.Round(OperatingTimes.Average(), 2);
         }
     }
 }

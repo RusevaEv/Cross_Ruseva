@@ -1,34 +1,28 @@
-﻿using System;
-
 namespace Cross_Ruseva.Models
 {
     public class ReliabilityMetrics
     {
-        // свойства
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public Guid DatasetId { get; set; }
+        public int Id { get; set; }
+        public int DatasetId { get; set; }
+        public string DistributionType { get; set; } = "Weibull";
+        public double Alpha { get; set; } // Параметр масштаба (характеристическая наработка)
+        public double Beta { get; set; }  // Параметр формы (стадия износа)
+        public double RSquared { get; set; } // Коэффициент детерминации (точность подгонки)
 
-        public double Alpha { get; set; }
-        public double Beta { get; set; }
-
-        // методы
-        // 1. Расчет вероятности безотказной работы R(t) для заданного времени t
+        // Бизнес-логика: вероятность безотказной работы P(t)
         public double CalculateReliability(double time)
         {
-            if (time <= 0) return 1.0;
-            return Math.Exp(-Math.Pow(time / Alpha, Beta));
+            if (time < 0 || Alpha <= 0 || Beta <= 0) return 0;
+            return Math.Round(Math.Exp(-Math.Pow(time / Alpha, Beta)), 4);
         }
 
-        // 2. Анализ фазы жизненного цикла оборудования на основе параметра формы
+        // Бизнес-логика: определение стадии жизненного цикла по параметру Beta
         public string GetLifecyclePhase()
         {
-            if (Beta < 1)
-                return "Период приработки (наличие скрытых дефектов)";
-            if (Beta >= 1 && Beta <= 1.5)
-                return "Нормальная эксплуатация (случайные отказы)";
-
-            return "Период деградации и износа (требуется обслуживание)";
+            if (Beta < 0.9) return "Период приработки (ранние отказы)";
+            if (Beta <= 1.2) return "Период нормальной эксплуатации (случайные отказы)";
+            if (Beta <= 2.0) return "Начальная стадия старения";
+            return "Период интенсивного износа и деградации";
         }
-
     }
 }
